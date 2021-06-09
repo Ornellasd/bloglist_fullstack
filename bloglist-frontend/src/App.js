@@ -10,7 +10,7 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [url, seturl] = useState('')
+  const [url, setUrl] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -25,7 +25,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
       setUser(user)
-      //blogService.setToken(user.token)
+      blogService.setToken(user.token)
     }
   }, [])
   
@@ -40,7 +40,7 @@ const App = () => {
         'loggedBloglistUser', JSON.stringify(user)
       )
 
-      //blogService.setToken(user.token)
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -64,7 +64,15 @@ const App = () => {
       url,
     }
 
-    console.log(blogObject)
+    blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+      })
+
   }
 
   const blogForm = () => (
@@ -93,7 +101,7 @@ const App = () => {
           type="text"
           value={url}
           name="URL"
-          onChange={({ target }) => seturl(target.value)}
+          onChange={({ target }) => setUrl(target.value)}
         />
       </div>
       <button type="submit">create</button>
