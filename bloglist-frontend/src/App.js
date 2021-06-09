@@ -48,7 +48,8 @@ const App = () => {
 
   const handleLogout = (event) => {
     event.preventDefault()
-    console.log(`logout ${user.username}`)
+    window.localStorage.removeItem('loggedBloglistUser')
+    setUser(null)
   }
 
   if(user === null) {
