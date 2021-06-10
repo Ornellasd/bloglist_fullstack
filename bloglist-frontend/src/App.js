@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
-import AddBlog from './components/AddBlog'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -16,6 +16,7 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [alertMessages, setAlertMessages] = useState([])
   const [alertType, setAlertType] = useState('')
+  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -49,7 +50,6 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
-      console.log('Wrong Credentials')
       handleAlerts(['Wrong username or password'], 'error')
     }  
   }
@@ -72,6 +72,7 @@ const App = () => {
     blogService
       .create(blogObject)
       .then(returnedBlog => {
+        setBlogFormVisible(false)
         setBlogs(blogs.concat(returnedBlog))
         handleAlerts([`${returnedBlog.title} added`], 'success')
         setTitle('')
@@ -90,6 +91,30 @@ const App = () => {
     setTimeout(() => {
       setAlertMessages([])
     }, 5000)
+  }
+
+  const blogForm = () => {
+    const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
+    const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style ={hideWhenVisible}>
+          <button onClick={() => setBlogFormVisible(true)}>create new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <BlogForm
+            title={title} 
+            user={user} 
+            handleSubmit={addBlog} 
+            handleTitleChange={({ target }) => setTitle(target.value)}
+            handleAuthorChange={({ target }) => setAuthor(target.value)}
+            handleUrlChange={({ target }) => setUrl(target.value)}
+          />
+          <button onClick={() => setBlogFormVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
   }
 
   if(user === null) {
@@ -130,16 +155,9 @@ const App = () => {
       {alertMessages.map(alert =>
         <Alert message={alert} type={alertType} />
       )}
-     
+           
       {user.name} logged in <button onClick={handleLogout}>logout</button>
-      <AddBlog 
-        title={title} 
-        user={user} 
-        handleSubmit={addBlog} 
-        handleTitleChange={({ target }) => setTitle(target.value)}
-        handleAuthorChange={({ target }) => setAuthor(target.value)}
-        handleUrlChange={({ target }) => setUrl(target.value)}
-      />
+      {blogForm()}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
