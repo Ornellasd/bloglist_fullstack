@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import AddBlog from './components/AddBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+
+const Alert = ({ message, type }) => <div className={"alert " + (type === 'success' ? 'success' : 'error')} >{message}</div>
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -12,6 +15,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [alertMessages, setAlertMessages] = useState([])
+  const [alertType, setAlertType] = useState('')
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -46,6 +50,7 @@ const App = () => {
       setPassword('')
     } catch(exception) {
       console.log('Wrong Credentials')
+      handleAlerts(['Wrong username or password'], 'error')
     }  
   }
 
@@ -68,53 +73,22 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        handleAlerts([`blog.title added`])
+        handleAlerts([`${returnedBlog.title} added`], 'success')
         setTitle('')
         setAuthor('')
         setUrl('')
       })
+      .catch(error => {
+        handleAlerts(Object.values(error.response.data), 'error')
+      })
 
   }
-
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-        title:
-        <input
-          type="text"
-          value={title}
-          name="Title"
-          onChange={({ target }) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author:
-        <input
-          type="text"
-          value={author}
-          name="Author"
-          onChange={({ target }) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url:
-        <input
-          type="text"
-          value={url}
-          name="URL"
-          onChange={({ target }) => setUrl(target.value)}
-        />
-      </div>
-      <button type="submit">create</button>
-    </form>
-  )
 
   const handleAlerts = (alerts, type) => {
     setAlertMessages(alerts)
     setAlertType(type)
     setTimeout(() => {
       setAlertMessages([])
-      setAlertType('success')
     }, 5000)
   }
 
@@ -122,6 +96,9 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
+        {alertMessages.map(alert =>
+          <Alert message={alert} type={alertType} />
+        )}
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -150,16 +127,19 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-
       {alertMessages.map(alert =>
-        <div className="alert success">
-          {alert}
-        </div>
+        <Alert message={alert} type={alertType} />
       )}
      
       {user.name} logged in <button onClick={handleLogout}>logout</button>
-      <h2>create new</h2>
-      {blogForm()}
+      <AddBlog 
+        title={title} 
+        user={user} 
+        handleSubmit={addBlog} 
+        handleTitleChange={({ target }) => setTitle(target.value)}
+        handleAuthorChange={({ target }) => setAuthor(target.value)}
+        handleUrlChange={({ target }) => setUrl(target.value)}
+      />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
