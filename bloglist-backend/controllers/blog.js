@@ -20,9 +20,7 @@ blogRouter.post('/', middleware.userExtractor, async (request, response) => {
 
   const user = await User.findById(request.user._id)
 
-  if(!body.title && !body.author) {
-    return response.status(400).json({ error: 'title and author missing' })
-  } else if(!body.likes) {
+  if(!body.likes) {
     body.likes = 0
   }
   
