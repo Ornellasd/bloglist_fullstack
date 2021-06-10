@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Toggable from './components/Toggable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -82,7 +83,6 @@ const App = () => {
       .catch(error => {
         handleAlerts(Object.values(error.response.data), 'error')
       })
-
   }
 
   const handleAlerts = (alerts, type) => {
@@ -94,15 +94,9 @@ const App = () => {
   }
 
   const blogForm = () => {
-    const hideWhenVisible = { display: blogFormVisible ? 'none' : '' }
-    const showWhenVisible = { display: blogFormVisible ? '' : 'none' }
-
     return (
       <div>
-        <div style ={hideWhenVisible}>
-          <button onClick={() => setBlogFormVisible(true)}>create new blog</button>
-        </div>
-        <div style={showWhenVisible}>
+        <Toggable buttonLabel="create new blog">
           <BlogForm
             title={title} 
             user={user} 
@@ -111,8 +105,7 @@ const App = () => {
             handleAuthorChange={({ target }) => setAuthor(target.value)}
             handleUrlChange={({ target }) => setUrl(target.value)}
           />
-          <button onClick={() => setBlogFormVisible(false)}>cancel</button>
-        </div>
+        </Toggable>
       </div>
     )
   }
