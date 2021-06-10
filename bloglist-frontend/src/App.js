@@ -11,6 +11,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [alertMessages, setAlertMessages] = useState([])
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -18,7 +19,6 @@ const App = () => {
     )  
   }, [])
 
-  
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if(loggedUserJSON) {
@@ -68,6 +68,7 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
+        handleAlerts([`blog.title added`])
         setTitle('')
         setAuthor('')
         setUrl('')
@@ -108,6 +109,15 @@ const App = () => {
     </form>
   )
 
+  const handleAlerts = (alerts, type) => {
+    setAlertMessages(alerts)
+    setAlertType(type)
+    setTimeout(() => {
+      setAlertMessages([])
+      setAlertType('success')
+    }, 5000)
+  }
+
   if(user === null) {
     return (
       <div>
@@ -140,6 +150,13 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+
+      {alertMessages.map(alert =>
+        <div className="alert success">
+          {alert}
+        </div>
+      )}
+     
       {user.name} logged in <button onClick={handleLogout}>logout</button>
       <h2>create new</h2>
       {blogForm()}
