@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import Togglable from './Togglable'
 
 const Blog = ({ blog }) => {
+  const [detailsVisible, setDetailsVisible] = useState(false)
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -10,16 +11,30 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  return (
-    <div style={blogStyle}>
-      {blog.title} {blog.author}
-      <Togglable buttonLabel="view">
-        <p>{blog.url}</p>
-        <p>{blog.likes}</p>
-        <p>{blog.author}</p>
-      </Togglable>
-    </div>  
-  )
+  const toggleVisibility = () => {
+    setDetailsVisible(!detailsVisible)
+  }
+
+  const showDetails = () => {
+    if(!detailsVisible) {
+      return (
+        <div style={blogStyle}>
+          {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
+        </div>  
+      )
+    } else {
+      return (
+        <div style={blogStyle}>
+          <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p> 
+          <p>{blog.url}</p>
+          <p>{blog.likes} <button>like</button></p>
+          <p>{blog.author}</p>
+        </div>
+      )
+    }
+  }
+
+  return showDetails()
 }
 
 export default Blog
