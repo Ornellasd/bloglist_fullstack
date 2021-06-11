@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Toggable from './components/Toggable'
@@ -15,6 +15,8 @@ const App = () => {
 
   const [alertMessages, setAlertMessages] = useState([])
   const [alertType, setAlertType] = useState('')
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -59,11 +61,11 @@ const App = () => {
   }
 
   const addBlog = (blogObject) => {
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        //set toggle visibile?
         handleAlerts([`${returnedBlog.title} added`], 'success')
       })
       .catch(error => {
@@ -82,7 +84,7 @@ const App = () => {
   const blogForm = () => {
     return (
       <div>
-        <Toggable buttonLabel="create new blog">
+        <Toggable buttonLabel="create new blog" ref={blogFormRef}>
           <BlogForm createBlog={addBlog}  />
         </Toggable>
       </div>
