@@ -1,6 +1,6 @@
 import React, { useState, useImperativeHandle } from 'react'
 
-const Toggable = React.forwardRef((props, ref) => {
+const Togglable = React.forwardRef((props, ref) => {
   
 
   const [visible, setVisible] = useState(false)
@@ -31,4 +31,4 @@ const Toggable = React.forwardRef((props, ref) => {
   )
 })
 
-export default Toggable
+export default Togglable
