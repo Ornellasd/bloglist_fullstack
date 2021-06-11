@@ -12,12 +12,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
   const [alertMessages, setAlertMessages] = useState([])
   const [alertType, setAlertType] = useState('')
-  const [blogFormVisible, setBlogFormVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -61,24 +58,13 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (event) => {
-    event.preventDefault()
-
-    const blogObject = {
-      title,
-      author,
-      url,
-    }
-
+  const addBlog = (blogObject) => {
     blogService
       .create(blogObject)
       .then(returnedBlog => {
-        setBlogFormVisible(false)
         setBlogs(blogs.concat(returnedBlog))
+        //set toggle visibile?
         handleAlerts([`${returnedBlog.title} added`], 'success')
-        setTitle('')
-        setAuthor('')
-        setUrl('')
       })
       .catch(error => {
         handleAlerts(Object.values(error.response.data), 'error')
@@ -97,14 +83,7 @@ const App = () => {
     return (
       <div>
         <Toggable buttonLabel="create new blog">
-          <BlogForm
-            title={title} 
-            user={user} 
-            handleSubmit={addBlog} 
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
-          />
+          <BlogForm createBlog={addBlog}  />
         </Toggable>
       </div>
     )
