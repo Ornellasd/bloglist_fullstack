@@ -20,7 +20,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
     )  
   }, [])
 
@@ -28,7 +28,6 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
       setUser(user)
       blogService.setToken(user.token)
     }
