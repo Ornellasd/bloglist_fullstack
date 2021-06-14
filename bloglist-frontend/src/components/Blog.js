@@ -18,7 +18,7 @@ const Blog = ({ blog, user, handleSort }) => {
   }
 
   const updateLikes = () => {
-    const changedBlog = {...blog, likes: blog.likes += 1, user: blog.user.id}
+    const changedBlog = { ...blog, likes: blog.likes += 1, user: blog.user.id }
 
     blogService
       .update(blog.id, changedBlog)
@@ -38,7 +38,7 @@ const Blog = ({ blog, user, handleSort }) => {
         .catch(error => {
           console.log(error)
         })
-        
+
     }
   }
 
@@ -47,18 +47,18 @@ const Blog = ({ blog, user, handleSort }) => {
       return (
         <div style={blogStyle}>
           {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
-        </div>  
+        </div>
       )
     } else {
       return (
         <div style={blogStyle}>
-          <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p> 
+          <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
           <p>{blog.url}</p>
           <p>{likes} <button onClick={() => updateLikes()}>like</button></p>
           <p>{blog.author}</p>
           {user.username === blog.user.username &&
             <button onClick={() => deleteBlog()}>remove</button>
-          } 
+          }
         </div>
       )
     }

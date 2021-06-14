@@ -6,14 +6,14 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-const Alert = ({ message, type }) => <div className={"alert " + (type === 'success' ? 'success' : 'error')} >{message}</div>
+const Alert = ({ message, type }) => <div className={'alert ' + (type === 'success' ? 'success' : 'error')} >{message}</div>
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  
+
   const [user, setUser] = useState(null)
 
   const [alertMessages, setAlertMessages] = useState([])
@@ -24,7 +24,7 @@ const App = () => {
   const sortBlogs = () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
-    )  
+    )
   }
 
   useEffect(sortBlogs, [])
@@ -37,7 +37,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-  
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
@@ -55,7 +55,7 @@ const App = () => {
       setPassword('')
     } catch(exception) {
       handleAlerts(['Wrong username or password'], 'error')
-    }  
+    }
   }
 
   const handleLogout = (event) => {
@@ -102,7 +102,7 @@ const App = () => {
         {alertMessages.map(alert =>
           <Alert message={alert} type={alertType} />
         )}
-        <LoginForm 
+        <LoginForm
           username={username}
           password={password}
           handleUsernameChange={({ target }) => setUsername(target.value)}
@@ -119,15 +119,15 @@ const App = () => {
       {alertMessages.map(alert =>
         <Alert message={alert} type={alertType} />
       )}
-           
+
       {user.name} logged in <button onClick={handleLogout}>logout</button>
       {blogForm()}
       {blogs.map(blog =>
-        <Blog 
-          key={blog.id} 
-          blog={blog} 
+        <Blog
+          key={blog.id}
+          blog={blog}
           user={user}
-          handleSort={() => sortBlogs()} 
+          handleSort={() => sortBlogs()}
         />
       )}
     </div>

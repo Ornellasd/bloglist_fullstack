@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 const LoginForm = ({ username, password, handleUsernameChange, handlePasswordChange, handleLogin }) => {
   return (
@@ -18,12 +18,12 @@ const LoginForm = ({ username, password, handleUsernameChange, handlePasswordCha
           type="password"
           value={password}
           name="Password"
-          onChange={handlePasswordChange} 
+          onChange={handlePasswordChange}
         />
       </div>
       <button type="submit">login</button>
     </form>
-  )  
+  )
 }
 
 export default LoginForm
