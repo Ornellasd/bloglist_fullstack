@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user, handleAlerts }) => {
+const Blog = ({ blog, user, handleSort }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const [likes, setBlogLikes] = useState(blog.likes)
 
@@ -24,6 +24,7 @@ const Blog = ({ blog, user, handleAlerts }) => {
       .update(blog.id, changedBlog)
       .then(returnedBlog => {
         setBlogLikes(returnedBlog.likes)
+        handleSort()
       })
       .catch(error => {
         console.log(error)
@@ -36,7 +37,6 @@ const Blog = ({ blog, user, handleAlerts }) => {
         .deleteBlog(blog.id)
         .catch(error => {
           console.log(error)
-          handleAlerts(['shit is fucked'], 'error')
         })
         
     }
