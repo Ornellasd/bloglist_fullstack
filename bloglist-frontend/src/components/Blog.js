@@ -45,7 +45,7 @@ const Blog = ({ blog, user, handleSort }) => {
   const showDetails = () => {
     if(!detailsVisible) {
       return (
-        <div style={blogStyle}>
+        <div style={blogStyle} className="unexpanded">
           {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
         </div>
       )
