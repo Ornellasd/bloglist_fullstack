@@ -51,12 +51,12 @@ const Blog = ({ blog, user, handleSort }) => {
       )
     } else {
       return (
-        <div style={blogStyle}>
+        <div style={blogStyle} className="expanded">
           <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
           <p>{blog.url}</p>
           <p>{likes} <button onClick={() => updateLikes()}>like</button></p>
           <p>{blog.author}</p>
-          {user.username === blog.user.username &&
+          {(user && user.username === blog.user.username) &&
             <button onClick={() => deleteBlog()}>remove</button>
           }
         </div>
