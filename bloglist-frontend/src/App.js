@@ -99,8 +99,8 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        {alertMessages.map(alert =>
-          <Alert message={alert} type={alertType} />
+        {alertMessages.map((alert, index) =>
+          <Alert message={alert} type={alertType} key={index} />
         )}
         <LoginForm
           username={username}
@@ -116,8 +116,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      {alertMessages.map(alert =>
-        <Alert message={alert} type={alertType} />
+      {alertMessages.map((alert, index) =>
+        <Alert message={alert} type={alertType} key={index} />
       )}
 
       {user.name} logged in <button onClick={handleLogout}>logout</button>
