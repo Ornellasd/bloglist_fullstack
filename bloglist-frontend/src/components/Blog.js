@@ -31,14 +31,15 @@ const Blog = ({ blog, user, handleSort }) => {
       })
   }
 
-  const deleteBlog = () => {
+  const deleteBlog = async () => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
-      blogService
-        .deleteBlog(blog.id)
-        .catch(error => {
-          console.log(error)
-        })
-
+      // blogService
+      //   .deleteBlog(blog.id)
+      //   .catch(error => {
+      //     console.log(error)
+      //   })
+      await blogService.deleteBlog(blog.id)
+      await handleSort()
     }
   }
 
