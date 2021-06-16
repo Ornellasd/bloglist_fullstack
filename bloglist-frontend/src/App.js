@@ -21,12 +21,9 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  const sortBlogs = () => {
-    blogService.getAll()
-      .then(blogs => {
-        console.log(blogs)
-        setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
-      })
+  const sortBlogs = async () => {
+    const blogs = await blogService.getAll()
+    setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
   }
 
   useEffect(sortBlogs, [])
@@ -71,6 +68,8 @@ const App = () => {
 
     try{
       const newBlog = await blogService.create(blogObject)
+      sortBlogs()
+      handleAlerts([`${newBlog.title} added`], 'success')
     } catch(e) {
       handleAlerts(Object.values(e.response.data), 'error')
     }
