@@ -33,11 +33,6 @@ const Blog = ({ blog, user, handleSort }) => {
 
   const deleteBlog = async () => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
-      // blogService
-      //   .deleteBlog(blog.id)
-      //   .catch(error => {
-      //     console.log(error)
-      //   })
       await blogService.deleteBlog(blog.id)
       await handleSort()
     }
@@ -51,6 +46,9 @@ const Blog = ({ blog, user, handleSort }) => {
         </div>
       )
     } else {
+      //console.log(user, 'user')
+      console.log(blog, 'blog')
+      console.log(user && user.username === blog.user.username, 'removal test')
       return (
         <div style={blogStyle} className="expanded">
           <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>

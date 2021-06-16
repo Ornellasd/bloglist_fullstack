@@ -66,17 +66,14 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = (blogObject) => {
+  const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        handleAlerts([`${returnedBlog.title} added`], 'success')
-      })
-      .catch(error => {
-        handleAlerts(Object.values(error.response.data), 'error')
-      })
+
+    try{
+      const newBlog = await blogService.create(blogObject)
+    } catch(e) {
+      handleAlerts(Object.values(e.response.data), 'error')
+    }
   }
 
   const handleAlerts = (alerts, type) => {
