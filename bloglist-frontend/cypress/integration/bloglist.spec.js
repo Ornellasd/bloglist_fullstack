@@ -44,9 +44,7 @@ describe('Blog List', function() {
 
   describe('When logged in', function() {
     beforeEach(function() {
-      cy.get('#username').type('testy_mctestface')
-      cy.get('#password').type('test')
-      cy.get('#login-button').click()
+      cy.login({ username: 'testy_mctestface', password: 'test' })
     })
 
     it('A blog can be created', function() {
