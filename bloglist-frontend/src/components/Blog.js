@@ -46,9 +46,6 @@ const Blog = ({ blog, user, handleSort }) => {
         </div>
       )
     } else {
-      //console.log(user, 'user')
-      console.log(blog, 'blog')
-      console.log(user && user.username === blog.user.username, 'removal test')
       return (
         <div style={blogStyle} className="expanded">
           <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
