@@ -45,34 +45,20 @@ describe('Blog List', function() {
   describe('When logged in', function() {
     beforeEach(function() {
       cy.login({ username: 'testy_mctestface', password: 'test' })
+      cy.createBlog({ title: 'Test Post', author: 'Testy McTestFace', url: 'http://www.test.com' })
     })
 
     it('A blog can be created', function() {
-      cy.get('#toggler').click()
-      cy.get('#title').type('Test Post')
-      cy.get('#author').type('Testy McTestFace')
-      cy.get('#url').type('http://www.test.com')
-      cy.get('#blog-submit').click()
       cy.contains('Test Post')
     })
 
     it('A blog can be liked', function() {
-      cy.get('#toggler').click()
-      cy.get('#title').type('Test Post')
-      cy.get('#author').type('Testy McTestFace')
-      cy.get('#url').type('http://www.test.com')
-      cy.get('#blog-submit').click()
       cy.get('#view-button').click()
       cy.get('#like-button').click()
       cy.contains('1')
     })
 
     it('A blog can be deleted by the user who created it', function() {
-      cy.get('#toggler').click()
-      cy.get('#title').type('Test Post')
-      cy.get('#author').type('Testy McTestFace')
-      cy.get('#url').type('http://www.test.com')
-      cy.get('#blog-submit').click()
       cy.get('#view-button').click()
       cy.get('#remove-button').click()
       cy.should('not.contain', 'Test Post')
