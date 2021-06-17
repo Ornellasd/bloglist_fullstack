@@ -42,7 +42,7 @@ const Blog = ({ blog, user, handleSort }) => {
     if(!detailsVisible) {
       return (
         <div style={blogStyle} className="unexpanded">
-          {blog.title} {blog.author} <button onClick={toggleVisibility}>view</button>
+          {blog.title} {blog.author} <button id="view-button" onClick={toggleVisibility}>view</button>
         </div>
       )
     } else {
@@ -50,7 +50,7 @@ const Blog = ({ blog, user, handleSort }) => {
         <div style={blogStyle} className="expanded">
           <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
           <p>{blog.url}</p>
-          <p>{likes} <button onClick={() => updateLikes()}>like</button></p>
+          <p>{likes} <button id="like-button" onClick={() => updateLikes()}>like</button></p>
           <p>{blog.author}</p>
           {(user && user.username === blog.user.username) &&
             <button onClick={() => deleteBlog()}>remove</button>

@@ -57,5 +57,16 @@ describe('Blog List', function() {
       cy.get('#blog-submit').click()
       cy.contains('Test Post')
     })
+
+    it('A blog can be liked', function() {
+      cy.get('#toggler').click()
+      cy.get('#title').type('Test Post')
+      cy.get('#author').type('Testy McTestFace')
+      cy.get('#url').type('http://www.test.com')
+      cy.get('#blog-submit').click()
+      cy.get('#view-button').click()
+      cy.get('#like-button').click()
+      cy.contains('1')
+    })
   })
 })
