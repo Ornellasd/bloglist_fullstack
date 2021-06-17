@@ -53,15 +53,25 @@ describe('Blog List', function() {
     })
 
     it('A blog can be liked', function() {
-      cy.get('#view-button').click()
-      cy.get('#like-button').click()
+      cy.get('.view-button').click()
+      cy.get('.like-button').click()
       cy.contains('1')
     })
 
     it('A blog can be deleted by the user who created it', function() {
-      cy.get('#view-button').click()
-      cy.get('#remove-button').click()
+      cy.get('.view-button').click()
+      cy.get('.remove-button').click()
       cy.should('not.contain', 'Test Post')
+    })
+
+    it('Blogs are ordered according to most liked', function() {
+      cy.createBlog({ title: 'Test Post 1', author: 'Testy McTestFace', url: 'http://www.test.com', likes: 32 })
+      cy.createBlog({ title: 'Test Post 2', author: 'Testy McTestFace', url: 'http://www.test.com', likes: 20 })
+      cy.createBlog({ title: 'Test Post 3', author: 'Testy McTestFace', url: 'http://www.test.com', likes: 45 })
+      cy.get('.unexpanded').then((blogs) => {
+        cy.get(blogs[0]).should('contain', 'Test Post 3')
+        cy.get(blogs[2]).should('contain', 'Test Post 2')
+      })
     })
   })
 })
