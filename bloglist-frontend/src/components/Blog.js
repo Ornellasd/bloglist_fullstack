@@ -53,7 +53,7 @@ const Blog = ({ blog, user, handleSort }) => {
           <p>{likes} <button id="like-button" onClick={() => updateLikes()}>like</button></p>
           <p>{blog.author}</p>
           {(user && user.username === blog.user.username) &&
-            <button onClick={() => deleteBlog()}>remove</button>
+            <button id="remove-button" onClick={() => deleteBlog()}>remove</button>
           }
         </div>
       )

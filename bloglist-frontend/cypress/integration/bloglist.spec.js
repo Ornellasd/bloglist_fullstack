@@ -68,5 +68,16 @@ describe('Blog List', function() {
       cy.get('#like-button').click()
       cy.contains('1')
     })
+
+    it('A blog can be deleted by the user who created it', function() {
+      cy.get('#toggler').click()
+      cy.get('#title').type('Test Post')
+      cy.get('#author').type('Testy McTestFace')
+      cy.get('#url').type('http://www.test.com')
+      cy.get('#blog-submit').click()
+      cy.get('#view-button').click()
+      cy.get('#remove-button').click()
+      cy.should('not.contain', 'Test Post')
+    })
   })
 })
